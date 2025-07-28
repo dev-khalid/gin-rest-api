@@ -37,3 +37,9 @@ Thumbs.db
 # Build artifacts
 /bin/
 /dist/
+
+
+#Temp
+tmp
+temp
+
