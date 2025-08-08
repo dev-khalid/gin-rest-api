@@ -1,0 +1,19 @@
+# Ignore git and editor files
+.git
+.gitignore
+.vscode
+
+# Binaries and build artifacts
+bin/
+*.out
+*.exe
+*.test
+
+# Node/Yarn (if any)
+node_modules/
+
+# OS files
+.DS_Store
+
+# Local env files (we pass env via compose)
+.env

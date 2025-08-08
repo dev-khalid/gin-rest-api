@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: Api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /usr/app
+    command: ["go", "run", "github.com/air-verse/air"]
+    env_file:
+      - .env
+    volumes:
+      - ./:/usr/app
+      - go-mod:/go/pkg/mod
+    ports:
+      - "8080:8080"
+    depends_on:
+      - apidb
+    networks:
+      - app-net
+
+  apidb:
+    container_name: ApiDb
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-net
+
+volumes:
+  db-data:
+  go-mod:
+
+networks:
+  app-net:
+    driver: bridge
