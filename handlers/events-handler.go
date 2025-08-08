@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dev-khalid/fgin-rest-api/models"
+	"github.com/dev-khalid/gin-rest-api/models"
 	"github.com/gin-gonic/gin"
 )
 

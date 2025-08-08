@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/dev-khalid/fgin-rest-api/handlers"
+	"github.com/dev-khalid/gin-rest-api/handlers"
 	"github.com/gin-gonic/gin"
 )
 
