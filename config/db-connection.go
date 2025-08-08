@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 
+	"github.com/dev-khalid/gin-rest-api/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -32,7 +33,7 @@ func initDB() {
 
 func migrateDB() {
 	// Run the database migrations
-	err := DB.AutoMigrate()
+	err := DB.AutoMigrate(&models.Event{})
 
 	if err != nil {
 		panic("failed to migrate database")

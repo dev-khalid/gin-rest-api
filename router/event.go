@@ -8,5 +8,8 @@ import (
 func Routes(server *gin.Engine) {
 	server.GET("/events", handlers.GetEvents)
 	server.POST("/events", handlers.CreateEvents)
-	
-} 
+	server.GET("/events/:id", handlers.GetEvent)
+	server.PUT("/events/:id", handlers.UpdateEvent)
+	server.DELETE("/events/:id", handlers.DeleteEvent)
+
+}
