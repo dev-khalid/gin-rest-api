@@ -36,7 +36,7 @@ func GetEvent(c *gin.Context) {
 	event, err := eventRepo.GetEventByID(uint(id64))
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			c.JSON(http.StatusNotFound, gin.H{"message": "Event not found"})
+			c.JSON(http.StatusNotFound, gin.H{"message": "Event not found", "error": err.Error()})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to fetch event", "error": err.Error()})
@@ -47,13 +47,14 @@ func GetEvent(c *gin.Context) {
 
 func CreateEvents(c *gin.Context) {
 	var event models.Event
+
 	if err := c.ShouldBindJSON(&event); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data", "errMessage": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse event data", "errMessage": err.Error(), "event": event})
 		return
 	}
 
 	if err := eventRepo.CreateEvent(&event); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to create event", "error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to create event", "error": err.Error(), "event": event})
 		return
 	}
 	c.JSON(http.StatusCreated, event)

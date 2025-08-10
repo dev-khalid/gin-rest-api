@@ -5,6 +5,7 @@ import (
 
 	"github.com/dev-khalid/gin-rest-api/models"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // EventRepository defines the contract for event data operations.
@@ -32,7 +33,7 @@ func (r *gormEventRepository) CreateEvent(event *models.Event) error {
 
 func (r *gormEventRepository) GetEvents() ([]models.Event, error) {
 	var events []models.Event
-	if err := r.db.Order("id DESC").Find(&events).Error; err != nil {
+	if err := r.db.Preload(clause.Associations).Order("id DESC").Find(&events).Error; err != nil {
 		return nil, err
 	}
 	return events, nil
@@ -40,7 +41,7 @@ func (r *gormEventRepository) GetEvents() ([]models.Event, error) {
 
 func (r *gormEventRepository) GetEventByID(id uint) (*models.Event, error) {
 	var event models.Event
-	if err := r.db.First(&event, id).Error; err != nil {
+	if err := r.db.Preload(clause.Associations).First(&event, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, gorm.ErrRecordNotFound
 		}
@@ -68,7 +69,6 @@ func (r *gormEventRepository) UpdateEvent(id uint, updated *models.Event) (*mode
 }
 
 func (r *gormEventRepository) DeleteEvent(id uint) error {
-	// Use Unscoped().Delete to hard delete; default is soft delete if model has DeletedAt (it doesn't here)
 	res := r.db.Delete(&models.Event{}, id)
 	if res.Error != nil {
 		return res.Error
