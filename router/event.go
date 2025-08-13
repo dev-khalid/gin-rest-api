@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Routes(server *gin.Engine) {
+func EventRoutes(server *gin.Engine) {
 	server.GET("/events", handlers.GetEvents)
 	server.POST("/events", handlers.CreateEvents)
 	server.GET("/events/:id", handlers.GetEvent)

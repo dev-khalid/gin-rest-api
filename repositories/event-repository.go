@@ -61,7 +61,7 @@ func (r *gormEventRepository) UpdateEvent(id uint, updated *models.Event) (*mode
 	}
 
 	updated.ID = existing.ID
-	// Save will update all fields, including zero-values; use Select if partial updates are needed.
+
 	if err := r.db.Model(&existing).Updates(updated).Error; err != nil {
 		return nil, err
 	}

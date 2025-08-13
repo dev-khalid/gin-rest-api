@@ -19,27 +19,27 @@ const (
 )
 
 type EventPricing struct {
-	ID              uint            `gorm:"primarykey" json:"id"`
+	ID              uint            `json:"id"`
 	Price           float64         `gorm:"not null;default:0" json:"price"`
 	Currency        string          `gorm:"not null;default:'USD'" json:"currency"`
 	EventAccessType EventAccessType `gorm:"type:enum('free','premium');not null;default:'free'" json:"event_access_type"`
 	PaymentMethod   PaymentMethod   `gorm:"type:enum('credit_card','cash');not null;default:'credit_card'" json:"payment_method"`
 
-	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Event struct {
-	ID uint `gorm:"primarykey" json:"id"`
-
-	Name           string    `json:"name" binding:"required" gorm:"not null"`
-	Description    string    `json:"description" binding:"required" gorm:"not null"`
-	Location       string    `json:"location" binding:"required" gorm:"not null"`
-	DateTime       time.Time `json:"datetime" binding:"required" gorm:"not null"`
-	UserID         int       `json:"user_id" gorm:"not null;default:1"`
-	EventPricingId uint
+	ID             uint         `json:"id"`
+	Name           string       `json:"name" binding:"required" gorm:"not null"`
+	Description    string       `json:"description" binding:"required" gorm:"not null"`
+	Location       string       `json:"location" binding:"required" gorm:"not null"`
+	DateTime       time.Time    `json:"datetime" binding:"required" gorm:"not null"`
+	UserID         int          `json:"user_id" gorm:"not null;default:1"`
+	User           User         `gorm:"constraint:OnDelete:CASCADE;" json:"user"`
+	EventPricingId uint         `json:"event_pricing_id"`
 	EventPricing   EventPricing `gorm:"constraint:OnDelete:CASCADE;" json:"event_pricing"`
 
-	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
